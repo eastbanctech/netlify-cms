@@ -512,7 +512,7 @@ export function loadEntries(collection: Collection, page = 0) {
     const provider = integration
       ? getIntegrationProvider(state.integrations, backend.getToken, integration)
       : backend;
-    const append = !!(page && !isNaN(page) && page > 0);
+    const append = page && !isNaN(page) && page > 0;
     dispatch(entriesLoading(collection));
 
     try {
