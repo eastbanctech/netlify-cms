@@ -1123,6 +1123,11 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@eastbanctech/ts-optional@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@eastbanctech/ts-optional/-/ts-optional-1.0.0.tgz#89aae5df67bb94cab35aa0ff5aace616a923c5e7"
+  integrity sha512-BjfcKlrcjAvy/c3q4HIo2Sl2GWUPua3pYvy1URcocIjDCXZykR9w3oxJbKSoIcd/9Tk+bslOdRUC0Mv7NsLmUQ==
+
 "@emotion/babel-plugin-jsx-pragmatic@^0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin-jsx-pragmatic/-/babel-plugin-jsx-pragmatic-0.1.5.tgz#27debfe9c27c4d83574d509787ae553bf8a34d7e"
