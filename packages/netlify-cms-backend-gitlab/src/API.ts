@@ -166,6 +166,27 @@ type GitLabCommit = {
   message: string;
 };
 
+export enum GitLabPipelineStatus {
+  RUNNING = 'running',
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  CANCELED = 'canceled',
+  SKIPPED = 'skipped',
+  CREATED = 'created',
+  MANUAL = 'manual'
+}
+
+export type GitLabPipeline = {
+  id: number
+  ref: string
+  sha: string
+  status: GitLabPipelineStatus
+  created_at: string
+  updated_at: string
+  web_url: string
+};
+
 export const getMaxAccess = (groups: { group_access_level: number }[]) => {
   return groups.reduce((previous, current) => {
     if (current.group_access_level > previous.group_access_level) {
@@ -834,5 +855,13 @@ export default class API {
       // eslint-disable-next-line @typescript-eslint/camelcase
       target_url,
     }));
+  }
+
+  /**
+   * Returns pipelines for CMS branch(<code>this.branch</code>).
+   */
+  getRepoPipelines(): Promise<GitLabPipeline[]> {
+    return this.requestJSON(`${this.repoURL}/pipelines`)
+      .then((pipelines: GitLabPipeline[]) => pipelines.filter(line => line.ref === this.branch));
   }
 }
