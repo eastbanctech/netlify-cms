@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import { Icon, components, colors } from 'netlify-cms-ui-default';
 import { searchCollections } from 'Actions/collections';
 import CollectionSearch from './CollectionSearch';
+import { connect } from "react-redux";
 
 const styles = {
   sidebarNavLinkActive: css`
@@ -70,6 +71,7 @@ class Sidebar extends React.Component {
     collection: ImmutablePropTypes.map,
     searchTerm: PropTypes.string,
     t: PropTypes.func.isRequired,
+    deploymentStatus: PropTypes.string,
   };
 
   static defaultProps = {
@@ -105,9 +107,16 @@ class Sidebar extends React.Component {
             .filter(collection => collection.get('hide') !== true)
             .map(this.renderLink)}
         </SidebarNavList>
+
+        {/*TODO:*/}
+        <div style={{paddingTop: 20, paddingLeft: 10, color: 'black'}}>
+          Deployment status: {this.props.deploymentStatus}
+        </div>
       </SidebarContainer>
     );
   }
 }
 
-export default translate()(Sidebar);
+const mapStateToProps = (state) => ({deploymentStatus: state.deploymentCheck.status});
+
+export default translate()(connect(mapStateToProps)(Sidebar));
