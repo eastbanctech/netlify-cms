@@ -21,9 +21,9 @@ export default function deploymentCheckReducer(state: DeploymentCheck = initialS
         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
       if (sortedPipelines.length > 0) {
-        return {...state, status: sortedPipelines[0].status}
+        return {...state, status: sortedPipelines[0].status};
       } else if (state.status !== UNKNOWN_STATUS) {
-        return {...state, status: UNKNOWN_STATUS}
+        return {...state, status: UNKNOWN_STATUS};
       }
     }
   }
