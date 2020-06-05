@@ -9,6 +9,9 @@ import { Icon, components, colors } from 'netlify-cms-ui-default';
 import { searchCollections } from 'Actions/collections';
 import CollectionSearch from './CollectionSearch';
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { GitLabPipelineStatus } from "netlify-cms-backend-gitlab/src/API";
 
 const styles = {
   sidebarNavLinkActive: css`
@@ -65,6 +68,12 @@ const SidebarNavLink = styled(NavLink)`
   `};
 `;
 
+const DeploymentStatusContainer = styled.ul`
+  padding-top: 20px;
+  padding-left: 16px;
+  border-top: 1px solid #eff0f4;
+`;
+
 class Sidebar extends React.Component {
   static propTypes = {
     collections: ImmutablePropTypes.orderedMap.isRequired,
@@ -91,7 +100,23 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const { collections, collection, searchTerm, t } = this.props;
+    const {collections, collection, searchTerm, t} = this.props;
+
+    let spinnerComponent = null;
+    if (this.props.deploymentStatus === GitLabPipelineStatus.RUNNING) {
+      spinnerComponent = <FontAwesomeIcon icon={faSyncAlt} spin/>;
+    }
+
+    let statusComponent = null;
+    if (this.props.deploymentCheckIsStarted) {
+      statusComponent =
+        <DeploymentStatusContainer>
+          Deployment status:
+          <span style={{color: 'black', marginRight: 10, marginLeft: 5}}>{this.props.deploymentStatus}</span>
+          {spinnerComponent}
+        </DeploymentStatusContainer>;
+    }
+
     return (
       <SidebarContainer>
         <SidebarHeading>{t('collection.sidebar.collections')}</SidebarHeading>
@@ -107,16 +132,15 @@ class Sidebar extends React.Component {
             .filter(collection => collection.get('hide') !== true)
             .map(this.renderLink)}
         </SidebarNavList>
-
-        {/*TODO:*/}
-        <div style={{paddingTop: 20, paddingLeft: 10, color: 'black'}}>
-          Deployment status: {this.props.deploymentStatus}
-        </div>
+        {statusComponent}
       </SidebarContainer>
     );
   }
 }
 
-const mapStateToProps = (state) => ({deploymentStatus: state.deploymentCheck.status});
+const mapStateToProps = (state) => ({
+  deploymentStatus: state.deploymentCheck.status,
+  deploymentCheckIsStarted: state.deploymentCheck.isStarted
+});
 
 export default translate()(connect(mapStateToProps)(Sidebar));

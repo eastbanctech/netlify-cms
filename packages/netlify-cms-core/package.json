@@ -25,6 +25,9 @@
   "license": "MIT",
   "dependencies": {
     "@eastbanctech/ts-optional": "^1.0.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.10",
     "@iarna/toml": "2.2.5",
     "ajv": "^6.10.0",
     "ajv-errors": "^1.0.1",
